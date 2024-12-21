@@ -1,0 +1,65 @@
+from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
+import random
+
+app = Flask(__name__)
+
+# Database setup
+def init_db():
+    with sqlite3.connect("questions.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS questions (
+                            id INTEGER PRIMARY KEY,
+                            question TEXT,
+                            option1 TEXT,
+                            option2 TEXT,
+                            option3 TEXT,
+                            option4 TEXT,
+                            answer INTEGER)''')
+        conn.commit()
+
+# Seed the database with example questions
+def seed_db():
+    with sqlite3.connect("questions.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM questions")  # Clear old data
+        sample_questions = [
+            ("What is 2 + 2?", "3", "4", "5", "6", 2),
+            ("What is the capital of France?", "Berlin", "Madrid", "Paris", "Rome", 3),
+            ("Which language is this quiz written in?", "Python", "Java", "C++", "Ruby", 1),
+            ("What is 5 * 6?", "30", "35", "40", "25", 1),
+            ("What is the boiling point of water?", "90C", "80C", "100C", "110C", 3)
+        ]
+        cursor.executemany("INSERT INTO questions (question, option1, option2, option3, option4, answer) VALUES (?, ?, ?, ?, ?, ?)", sample_questions)
+        conn.commit()
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/start')
+def start():
+    with sqlite3.connect("questions.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM questions")
+        questions = cursor.fetchall()
+    selected_questions = random.sample(questions, 5)
+    return render_template('quiz.html', questions=selected_questions)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    answers = request.form
+    score = 0
+    with sqlite3.connect("questions.db") as conn:
+        cursor = conn.cursor()
+        for question_id, user_answer in answers.items():
+            cursor.execute("SELECT answer FROM questions WHERE id = ?", (question_id,))
+            correct_answer = cursor.fetchone()[0]
+            if int(user_answer) == correct_answer:
+                score += 1
+    return render_template('result.html', score=score)
+
+if __name__ == '__main__':
+    init_db()
+    seed_db()
+    app.run(debug=True)
