@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Multiple Choice Quiz</h1>
+    <form id="quiz-form">
+        <div id="questions"></div>
+        <button type="button" onclick="submitQuiz()">Submit</button>
+    </form>
+
+    <div id="result" style="margin-top: 20px;"></div>
+
+    <script>
+        const quiz = {{ quiz|tojson }};
+        const questionsDiv = document.getElementById("questions");
+
+        // Render quiz questions
+        quiz.forEach((q, index) => {
+            const questionDiv = document.createElement("div");
+            questionDiv.className = "question";
+            questionDiv.innerHTML = `
+                <p>${index + 1}. ${q.question}</p>
+                ${q.choices.map((choice, i) => `
+                    <label>
+                        <input type="radio" name="q${index}" value="${i + 1}">
+                        ${choice}
+                    </label><br>
+                `).join('')}
+            `;
+            questionsDiv.appendChild(questionDiv);
+        });
+
+        function submitQuiz() {
+            const answers = quiz.map((_, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                return selected ? parseInt(selected.value) : null;
+            });
+
+            fetch("/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ answers, quiz }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById("result").innerText = `You scored ${result.score}/${result.total}`;
+            })
+            .catch(err => console.error("Error:", err));
+        }
+    </script>
+</body>
+</html>
