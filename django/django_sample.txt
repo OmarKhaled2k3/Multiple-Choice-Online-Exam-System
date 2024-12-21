@@ -1,0 +1,113 @@
+from django.db import models
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=255)
+    option_a = models.CharField(max_length=100)
+    option_b = models.CharField(max_length=100)
+    option_c = models.CharField(max_length=100)
+    option_d = models.CharField(max_length=100)
+    correct_option = models.CharField(max_length=1)  # A, B, C, D
+
+    def __str__(self):
+        return self.question_text
+......................................
+  from django import forms
+from .models import Question
+
+class QuizForm(forms.Form):
+    def __init__(self, questions, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for i, question in enumerate(questions):
+            self.fields[f'question_{i}'] = forms.ChoiceField(
+                label=question.question_text,
+                choices=[
+                    ('A', question.option_a),
+                    ('B', question.option_b),
+                    ('C', question.option_c),
+                    ('D', question.option_d),
+                ],
+                widget=forms.RadioSelect,
+            )
+........................................
+          import random
+from django.shortcuts import render, redirect
+from .models import Question
+from .forms import QuizForm
+
+def quiz_view(request):
+    if request.method == "POST":
+        form = QuizForm(questions=request.session['questions'], data=request.POST)
+        if form.is_valid():
+            correct_answers = 0
+            for i, question in enumerate(request.session['questions']):
+                if form.cleaned_data[f'question_{i}'] == question.correct_option:
+                    correct_answers += 1
+            grade = (correct_answers / len(request.session['questions'])) * 100
+            return render(request, 'quiz/result.html', {'grade': grade})
+    
+    questions = list(Question.objects.all())
+    selected_questions = random.sample(questions, 5)
+    request.session['questions'] = [q for q in selected_questions]
+    form = QuizForm(selected_questions)
+    return render(request, 'quiz/quiz.html', {'form': form})
+...................................................
+          <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <script>
+        let timer = 60; // 60 seconds
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            const interval = setInterval(() => {
+                timer -= 1;
+                timerElement.innerText = `Time left: ${timer}s`;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('quiz-form').submit();
+                }
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="startTimer()">
+    <h1>Quiz</h1>
+    <p id="timer">Time left: 60s</p>
+    <form id="quiz-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+.............................................
+          <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+</head>
+<body>
+    <h1>Quiz Result</h1>
+    <p>Your grade: {{ grade }}%</p>
+</body>
+</html>
+
+          ............................................
+          from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.quiz_view, name='quiz'),
+]
+................................................
+          from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('quiz/', include('quiz.urls')),
+]
