@@ -22,31 +22,15 @@ for i in range(0, len(lines), 7):
     }
     answers_dict[question_number] = correct_statement
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 print(questions_dict["Q1"]["Question Statement"])
 print(questions_dict["Q1"]["A"])
 print(answers_dict["Q1"])
 print(questions_dict["Q1"]["Correct Answer"])
-=======
+#=====
 # Output results
 print("Questions Dictionary:")
 print(questions)
 print("\nAnswers Dictionary:")
 print(answers)
 #print(answers["Q1"])
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> c068471dabd1c005c0a79767a0c7298c769795f4
->>>>>>> Stashed changes
-=======
->>>>>>> c068471dabd1c005c0a79767a0c7298c769795f4
->>>>>>> Stashed changes
-=======
->>>>>>> c068471dabd1c005c0a79767a0c7298c769795f4
->>>>>>> Stashed changes
-=======
->>>>>>> c068471dabd1c005c0a79767a0c7298c769795f4
->>>>>>> Stashed changes
