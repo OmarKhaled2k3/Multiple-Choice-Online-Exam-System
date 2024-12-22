@@ -37,6 +37,10 @@ print(answers)
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> c068471dabd1c005c0a79767a0c7298c769795f4
+>>>>>>> Stashed changes
 =======
 >>>>>>> c068471dabd1c005c0a79767a0c7298c769795f4
 >>>>>>> Stashed changes
