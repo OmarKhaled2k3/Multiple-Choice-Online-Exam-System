@@ -1,4 +1,3 @@
-# Read the file
 with open("Networks.txt") as file:
     lines = file.readlines()
 questions_dict = {}
@@ -22,15 +21,8 @@ for i in range(0, len(lines), 7):
     }
     answers_dict[question_number] = correct_statement
 
-#<<<<<<< HEAD
-print(questions_dict["Q1"]["Question Statement"])
+print(questions_dict["Q7"]["Question Statement"])
 print(questions_dict["Q1"]["A"])
 print(answers_dict["Q1"])
 print(questions_dict["Q1"]["Correct Answer"])
-#=====
-# Output results
-print("Questions Dictionary:")
-print(questions)
-print("\nAnswers Dictionary:")
-print(answers)
-#print(answers["Q1"])
+
