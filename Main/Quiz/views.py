@@ -11,7 +11,7 @@ def insertQuestions(request):
     if(request.method =='POST'):
          
         # Iterate through all the data items
-        for field, data in request.files.items():
+        for field, data in request.FILES.items():
             print('field:', field)
             print('filename:', data.filename)
             if data.filename:
