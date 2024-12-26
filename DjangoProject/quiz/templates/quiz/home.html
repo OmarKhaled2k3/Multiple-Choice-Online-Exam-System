@@ -1,0 +1,73 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container ">
+  <h1>Welcome to DataFlair Quiz</h1>
+
+  <div align="right" id="displaytimer"><b>Timer: 120 seconds</b></div>
+
+  <form method='post' action=''>
+    {% csrf_token %}
+    {% for q in questions %}
+    <div class="form-group">
+      <label for="question">{{insertQuestions}}</label>
+    </div>
+    <div class="form-check">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{insertQuestions}}" id="gridRadios1" value="option1" checked>
+            <label class="form-check-label" for="gridRadios1">
+                {{q.op1}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios2" value="option2">
+            <label class="form-check-label" for="gridRadios2">
+                {{q.op2}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios3" value="option3">
+            <label class="form-check-label" for="gridRadios3">
+                {{q.op3}}
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="{{q.question}}" id="gridRadios4" value="option4">
+            <label class="form-check-label" for="gridRadios4">
+                {{q.op4}}
+            </label>
+        </div>
+        <br>
+    </div>
+    {% endfor %}
+    <input id='timer' type='hidden' name="timer" value="">
+    <br>
+    <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {% block script %}
+    <script>
+      let timer = document.getElementById('displaytimer');
+      let inputtag = document.getElementById('timer');
+      let submitBtn = document.getElementById('submitBtn');
+      let t = 120;
+
+      function updateTimer() {
+        t--;
+        timer.innerHTML = "<b>Timer: " + t + " seconds</b>";
+        inputtag.value = t;
+
+        if (t <= 0) {
+
+          submitBtn.disabled = true;
+
+          /////hna ya 7ag////////
+        }
+      }
+      setInterval(updateTimer, 1000);
+    </script>
+  {% endblock %}
+</div>
+{% endblock %}
+
+
