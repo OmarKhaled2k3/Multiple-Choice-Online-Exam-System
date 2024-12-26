@@ -21,18 +21,18 @@ def insertQuestions(request):
                 for ques in questions:
                     # Insert in the database
                     QuestionsModel.objects.create(question = questions[ques]["Question Statement"], op1 = questions[ques]["A"],op2 = questions[ques]["B"],op3 = questions[ques]["C"],op4 = questions[ques]["D"],ans=questions[ques]["Correct Answer"])
-            return HttpResponseRedirect("quiz/take/")
+            return HttpResponseRedirect("/admin/quiz/questionsmodel/")
         else:
             form = UploadFileForm()
             return render(request, "quiz/insertQuestions.html", {"form": form})
     else:
-        return redirect('home')
+        return redirect('/home')
 def home(request):
     return render(request, 'quiz/home.html')
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('/home')
     else:
        if request.method=="POST":
         username=request.POST.get('username')
@@ -40,13 +40,14 @@ def loginPage(request):
         user=authenticate(request,username=username,password=password)
         if user is not None:
             login(request,user)
-            return redirect('/')
+            return redirect('/home')
        context={}
        return render(request,'quiz/login.html',context)
 
 def registerPage(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('/home')
+
     else:
         form = createuserform()
         if request.method == 'POST':
@@ -70,11 +71,14 @@ def take_quiz_view(request, student_id):
         total = len(questions)  # Total number of questions
 
         for q in questions:
-            user_answer = request.POST.get(str(q.id))  # Ensure to use the question ID or unique key
+            user_answer = request.POST.get(q.question)  # Ensure to use the question ID or unique key
             correct_answer = q.ans  # Assuming `ans` holds the correct answer
-
+            print(user_answer)
+            print(correct_answer)
+            print()
+            #if q.ans ==  request.POST.get(q.question):
             if user_answer:
-                if user_answer.strip().lower() == correct_answer.strip().lower():  # Case-insensitive comparison
+                if user_answer == correct_answer:  # Case-insensitive comparison
                     score += 10  # Add points for a correct answer
                     correct += 1
                 else:
@@ -111,4 +115,4 @@ def take_quiz_view(request, student_id):
 
 def logoutPage(request):
     logout(request)
-    return redirect('/')
+    return redirect('/login')

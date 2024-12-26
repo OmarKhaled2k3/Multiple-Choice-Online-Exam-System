@@ -3,7 +3,7 @@
 {% block content %}
 <div class="quiz-container">
     <h1>Quiz for {{ username }}</h1>
-    <div align="right" id="displaytimer"><b>Timer: 20 seconds</b></div>
+    <div align="right" id="displaytimer"><b>Timer: 120 seconds</b></div>
 
     <form method="post" id="form__submit">
         {% csrf_token %}
@@ -11,25 +11,25 @@
             <div class="mb-3">
                 <p>{{ q.question }}</p>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option1" id="option1-{{ q.question }}" required>
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value= "{{q.op1}}"  id="option1-{{ q.question }}" required>
                     <label class="form-check-label" for="option1-{{ q.question }}">
                         {{ q.op1 }}
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option2" id="option2-{{ q.question }}" required>
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="{{q.op2}}" id="option2-{{ q.question }}" required>
                     <label class="form-check-label" for="option2-{{ q.question }}">
                         {{ q.op2 }}
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option3" id="option3-{{ q.question }}" required>
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="{{q.op3}}" id="option3-{{ q.question }}" required>
                     <label class="form-check-label" for="option3-{{ q.question }}">
                         {{ q.op3 }}
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option4" id="option4-{{ q.question }}" required>
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="{{q.op4}}" id="option4-{{ q.question }}" required>
                     <label class="form-check-label" for="option4-{{ q.question }}">
                         {{ q.op4 }}
                     </label>
