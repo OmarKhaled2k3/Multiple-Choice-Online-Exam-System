@@ -1,5 +1,5 @@
-def Readfile(filename):
-    with open(filename) as file:
+def Readfile(uploadedfile):
+    with open(uploadedfile) as file:
         lines = file.readlines()
     questions_dict = {}
     answers_dict = {}
@@ -22,9 +22,9 @@ def Readfile(filename):
         }
         answers_dict[question_number] = correct_statement
     return questions_dict
+    #print(questions_dict["Q7"]["Question Statement"])
+    #print(questions_dict["Q1"]["A"])
+    #print(answers_dict["Q1"])
+    #print(questions_dict["Q1"]["Correct Answer"])
 
-#print(questions_dict["Q7"]["Question Statement"])
-#print(questions_dict["Q1"]["A"])
-#print(answers_dict["Q1"])
-#print(questions_dict["Q1"]["Correct Answer"])
 

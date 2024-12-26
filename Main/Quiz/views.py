@@ -4,23 +4,30 @@ from django.contrib.auth import login,logout,authenticate
 from .FiletoList import*
 from .models import *
 from django.http import HttpResponse
-import os
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from .forms import UploadFileForm
+import os.path
 # Create your views here.
 def insertQuestions(request):
-    questions ={}
-    if(request.method =='POST'):
-         
-        # Iterate through all the data items
-        for field, data in request.FILES.items():
-            print('field:', field)
-            print('filename:', data.filename)
-            if data.filename:
-                data.save(os.path.join('media', data.filename))
-                questions=Readfile(data.filename)
-            for ques in questions:
-                # Insert in the database
-                QuestionsModel.objects.create(question = ques["Question_statement"], op1 = ques["A"],op2 = ques["B"],op3 = ques["C"],op4 = ques["D"],ans=ques["Correct Answer"])
-            return redirect('/')
-    context = { }
-    # Returning the rendered html
-    return render(request, "Quiz/insertQuestions.html", context)
+    if request.user.is_staff:
+        if request.method == "POST" :
+            form = UploadFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                f= request.FILES['file']
+                save_path = 'Main\\media\\'
+                completeName = save_path+f.name
+                with open(completeName, 'wb+') as destination:  
+                    for chunk in f.chunks():  
+                        destination.write(chunk)  
+                questions=Readfile(completeName)
+                QuestionsModel.objects.all().delete()
+                for ques in questions:
+                    # Insert in the database
+                    QuestionsModel.objects.create(question = questions[ques]["Question Statement"], op1 = questions[ques]["A"],op2 = questions[ques]["B"],op3 = questions[ques]["C"],op4 = questions[ques]["D"],ans=questions[ques]["Correct Answer"])
+            return HttpResponseRedirect("/admin/Quiz/questionsmodel/")
+        else:
+            form = UploadFileForm()
+            return render(request, "Quiz/insertQuestions.html", {"form": form})
+    else: 
+        return redirect('home') 
