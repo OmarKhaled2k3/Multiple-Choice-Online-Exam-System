@@ -21,44 +21,18 @@ def insertQuestions(request):
                 for ques in questions:
                     # Insert in the database
                     QuestionsModel.objects.create(question = questions[ques]["Question Statement"], op1 = questions[ques]["A"],op2 = questions[ques]["B"],op3 = questions[ques]["C"],op4 = questions[ques]["D"],ans=questions[ques]["Correct Answer"])
-            return HttpResponseRedirect("/admin/Quiz/questionsmodel/")
+            return HttpResponseRedirect("quiz/take/")
         else:
             form = UploadFileForm()
-            return render(request, "Quiz/insertQuestions.html", {"form": form})
+            return render(request, "quiz/insertQuestions.html", {"form": form})
     else:
         return redirect('home')
 def home(request):
-    if request.method == 'POST':
-        print(request.POST)
-        questions=QuestionsModel().objects.all()
-        score=0
-        wrong=0
-        correct=0
-        total=0
-        for q in questions:
-            total+=1
-            print(request.POST.get(q.question))
-            print(q.ans)
-            print()
-            if q.ans ==  request.POST.get(q.question):
-                score+=10
-                correct+=1
-            else:
-                wrong+=1
-        percent = score/(total*10) *100
-        context = {
-            'score':score,
-            'time': request.POST.get('timer'),
-            'correct':correct,
-            'wrong':wrong,
-            'percent':percent,
-            'total':total
-        }
-        return render(request,'quiz/result.html',context)
+    return render(request, 'quiz/home.html')
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('generate_quiz')
+        return redirect('home')
     else:
        if request.method=="POST":
         username=request.POST.get('username')
@@ -85,47 +59,55 @@ def registerPage(request):
         }
         return render(request, 'quiz/register.html', context)
 
+from django.shortcuts import render, redirect
+
 def take_quiz_view(request, student_id):
-    '''
     if request.method == 'POST':
-        quiz = QuestionsModel.objects.all()
-        answers = request.POST
-        score = quiz.grade_quiz(answers)
-        return render(request, 'quiz/result.html', {'score': score, 'student_id':student_id})
-    '''
-    if request.method == 'POST':
-        print(request.POST)
-        questions=QuestionsModel.objects.all()
-        score=0
-        wrong=0
-        correct=0
-        total=0
+        questions = QuestionsModel.objects.all()
+        score = 0
+        correct = 0
+        wrong = 0
+        total = len(questions)  # Total number of questions
+
         for q in questions:
-            total+=1
-            print(request.POST.get(q.question))
-            print(q.ans)
-            print()
-            if q.ans ==  request.POST.get(q.question):
-                score+=10
-                correct+=1
+            user_answer = request.POST.get(str(q.id))  # Ensure to use the question ID or unique key
+            correct_answer = q.ans  # Assuming `ans` holds the correct answer
+
+            if user_answer:
+                if user_answer.strip().lower() == correct_answer.strip().lower():  # Case-insensitive comparison
+                    score += 10  # Add points for a correct answer
+                    correct += 1
+                else:
+                    wrong += 1
             else:
-                wrong+=1
-        percent = score/(total*10) *100
+                wrong += 1  # Count unanswered questions as wrong
+
+        percent = (score / (total * 10)) * 100 if total > 0 else 0
+        time = request.POST.get('timer', 'N/A')  # Get the timer value from POST, default to 'N/A'
+
+        # Assuming the username is available from the request's user (for authenticated users)
+        username = request.user.username if request.user.is_authenticated else f"Student {student_id}"
+
         context = {
-            'score':score,
-            'time': request.POST.get('timer'),
-            'correct':correct,
-            'wrong':wrong,
-            'percent':percent,
-            'total':total
+            'username': username,
+            'score': score,
+            'max_score': total * 10,  # Maximum score
+            'total': total,
+            'correct': correct,
+            'wrong': wrong,
+            'time': time,
+            'percent': percent,
         }
-        return render(request,'quiz/result.html',context)
-    else:
+
+        return render(request, 'quiz/result.html', context)
+
+    else:  # For GET request, render the quiz
         questions = QuestionsModel.objects.all()
         context = {
-            'questions':questions
+            'questions': questions
         }
         return render(request, 'quiz/take_quiz.html', context)
+
 
 def logoutPage(request):
     logout(request)

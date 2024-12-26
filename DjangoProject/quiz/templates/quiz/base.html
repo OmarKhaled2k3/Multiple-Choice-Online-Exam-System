@@ -7,18 +7,22 @@
 </head>
 <body>
 
-<div class="container">
-  <ul class="nav bg-info">
-    <li class="nav-item">
-      <a class="nav-link link-light" href="/">HOME</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link link-light" href="/members">MEMBERS</a>
-    </li>
-  </ul>
+{% if request.path != '/login/' %}
+    <div class="container">
+      <ul class="nav bg-info justify-content-between">
+        <li class="nav-item">
+          <a class="nav-link link-light" href="home">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link link-light" href="logout/">Logout</a>
+        </li>
+      </ul>
+    </div>
+{% endif %}
 
   {% block content %}
   {% endblock %}
+
 </div>
 </body>
 </html>
