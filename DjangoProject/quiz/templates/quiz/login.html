@@ -1,0 +1,15 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="jumbotron">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <p><input type="text" name="username" placeholder="Username..." class="form-control"></p>
+            <p><input type="password" name="password" placeholder="Password..." class="form-control"></p>
+            <input class="btn btn-success" type="submit" value="Login">
+            <p>Do not have an account? <a href='{% url 'register' %}'>Register</a></p>
+        </form>
+    </div>
+</div>
+{% endblock %}
