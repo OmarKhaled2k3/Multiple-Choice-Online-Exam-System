@@ -57,7 +57,7 @@ def registerPage(request):
             form = createuserform(request.POST)
             if form.is_valid():
                 user = form.save()
-                return redirect('login')
+                return redirect('/login')
         context = {
             'form': form,
         }
@@ -82,36 +82,36 @@ def take_quiz_view(request, student_id):
             #if q.ans ==  request.POST.get(q.question):
             if user_answer:
                 if user_answer == correct_answer:  # Case-insensitive comparison
-                    score += 10  # Add points for a correct answer
+                    score += 1  # Add points for a correct answer
                     correct += 1
                 else:
                     wrong += 1
             else:
                 wrong += 1  # Count unanswered questions as wrong
 
-        percent = (score / (total * 10)) * 100 if total > 0 else 0
-        time = request.POST.get('timer', 'N/A')  # Get the timer value from POST, default to 'N/A'
+        #percent = (score / (total * 10)) * 100 if total > 0 else 0
+        #time = request.POST.get('timer', 'N/A')  # Get the timer value from POST, default to 'N/A'
 
         # Assuming the username is available from the request's user (for authenticated users)
-        username = request.user.username if request.user.is_authenticated else f"Student {student_id}"
+        username = request.user.username if request.user.is_authenticated else f"Student {request.user.username }"
 
         context = {
             'username': username,
             'score': score,
-            'max_score': total * 10,  # Maximum score
+            'max_score': total ,  # Maximum score
             'total': total,
             'correct': correct,
             'wrong': wrong,
-            'time': time,
-            'percent': percent,
         }
 
         return render(request, 'quiz/result.html', context)
 
     else:  # For GET request, render the quiz
-        questions = QuestionsModel.objects.all()
+        questions = list(QuestionsModel.objects.all())
+        random_questions=random.sample(questions,5)
         context = {
-            'questions': questions
+            'questions': random_questions,
+            'username': request.user.username
         }
         return render(request, 'quiz/take_quiz.html', context)
 
