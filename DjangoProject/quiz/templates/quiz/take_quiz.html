@@ -3,38 +3,73 @@
 {% block content %}
 <div class="quiz-container">
     <h1>Quiz for {{ username }}</h1>
-    <form method="post">
+    <div align="right" id="displaytimer"><b>Timer: 120 seconds</b></div>
+
+    <form method="post" id = "form__submit">
         {% csrf_token %}
-        {% for question in quiz.questions.all %}
+        {% for q in questions %}
             <div class="mb-3">
-                <p>{{ question.text }}</p>
+                <p>{{ q.question }}</p>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ question.id }}" value="{{ question.option1 }}" id="option1-{{ question.id }}" required>
-                    <label class="form-check-label" for="option1-{{ question.id }}">
-                        {{ question.option1 }}
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option1"  id="option1-{{ q.question }}" required>
+                    <label class="form-check-label" for="option1-{{ q.question }}">
+                        {{ q.op1 }}
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ question.id }}" value="{{ question.option2 }}" id="option2-{{ question.id }}" required>
-                    <label class="form-check-label" for="option2-{{ question.id }}">
-                        {{ question.option2 }}
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option2" id="option2-{{ q.question }}" required>
+                    <label class="form-check-label" for="option2-{{ q.question }}">
+                        {{ q.op2 }}
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ question.id }}" value="{{ question.option3 }}" id="option3-{{ question.id }}" required>
-                    <label class="form-check-label" for="option3-{{ question.id }}">
-                        {{ question.option3 }}
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option3" id="option3-{{ q.question }}" required>
+                    <label class="form-check-label" for="option3-{{ q.question }}">
+                        {{ q.op3 }}
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="{{ question.id }}" value="{{ question.option4 }}" id="option4-{{ question.id }}" required>
-                    <label class="form-check-label" for="option4-{{ question.id }}">
-                        {{ question.option4 }}
+                    <input class="form-check-input" type="radio" name="{{ q.question }}" value="option4" id="option4-{{ q.question }}" required>
+                    <label class="form-check-label" for="option4-{{ q.question }}">
+                        {{ q.op4 }}
                     </label>
                 </div>
             </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-primary">Submit Quiz</button>
-    </form>
+            {% endfor %}
+            <button type="submit" id="submitBtn" class="btn btn-primary">Submit Quiz</button>
+        </form>
+            {% block script %}
+    <script>
+      let timer = document.getElementById('displaytimer');
+      let inputtag = document.getElementById('timer');
+      let submitBtn = document.getElementById('submitBtn');
+      let t = 20;
+      function submitForm() {
+            let form = document.getElementById("form__submit");
+            form.submit();
+          }
+      function updateTimer() {
+        t--;
+        timer.innerHTML = "<b>Timer: " + t + " seconds</b>";
+        inputtag.value = t;
+
+        //if (t < 0) {
+            //clearInterval(timerInterval);
+            //submitBtn.click();
+            //t=10;
+            //submitBtn.disabled = true;
+            //submitForm();
+            /////hna ya 7ag////////
+        //}
+    }
+    function stopTimer() {
+        clearInterval(timerInterval)
+        submitBtn.click();
+        form.submit();
+    }
+        const timerInterval=setInterval(updateTimer, 1000);
+        setTimeout(stopTimer, 20000) 
+    </script>
+  {% endblock %}
 </div>
 {% endblock %}

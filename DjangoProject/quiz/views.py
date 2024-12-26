@@ -4,6 +4,7 @@ from .FiletoList import Readfile, Savefile
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
+from .models import *
 import json
 import time
 
@@ -29,7 +30,7 @@ def insertQuestions(request):
 def home(request):
     if request.method == 'POST':
         print(request.POST)
-        questions=QuestionsModels().objects.all()
+        questions=QuestionsModel().objects.all()
         score=0
         wrong=0
         correct=0
@@ -85,15 +86,46 @@ def registerPage(request):
         return render(request, 'quiz/register.html', context)
 
 def take_quiz_view(request, student_id):
-    try:
-        quiz = Quiz.objects.get(student_id=student_id)
-    except Quiz.DoesNotExist:
-        return HttpResponse("Quiz not found.", status=404)
+    '''
     if request.method == 'POST':
+        quiz = QuestionsModel.objects.all()
         answers = request.POST
         score = quiz.grade_quiz(answers)
         return render(request, 'quiz/result.html', {'score': score, 'student_id':student_id})
-    return render(request, 'quiz/take_quiz.html', {'quiz': quiz, 'student_id':student_id})
+    '''
+    if request.method == 'POST':
+        print(request.POST)
+        questions=QuestionsModel.objects.all()
+        score=0
+        wrong=0
+        correct=0
+        total=0
+        for q in questions:
+            total+=1
+            print(request.POST.get(q.question))
+            print(q.ans)
+            print()
+            if q.ans ==  request.POST.get(q.question):
+                score+=10
+                correct+=1
+            else:
+                wrong+=1
+        percent = score/(total*10) *100
+        context = {
+            'score':score,
+            'time': request.POST.get('timer'),
+            'correct':correct,
+            'wrong':wrong,
+            'percent':percent,
+            'total':total
+        }
+        return render(request,'quiz/result.html',context)
+    else:
+        questions = QuestionsModel.objects.all()
+        context = {
+            'questions':questions
+        }
+        return render(request, 'quiz/take_quiz.html', context)
 
 def logoutPage(request):
     logout(request)

@@ -10,7 +10,7 @@ class QuestionsModel(models.Model):
     ans = models.CharField(max_length=200,null=True)
 
     def __str__(self):
-        return self.text
+        return self.question
 
     def grade_quiz(self, answers):
         score = 0
