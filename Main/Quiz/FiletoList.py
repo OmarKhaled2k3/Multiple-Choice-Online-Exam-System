@@ -1,5 +1,14 @@
-def Readfile(uploadedfile):
-    with open(uploadedfile) as file:
+save_path = 'Main\\media\\'
+completeName = save_path
+def Savefile(f):
+    global completeName
+    completeName = save_path+f.name
+    with open(completeName, 'wb+') as destination:  
+        for chunk in f.chunks():  
+            destination.write(chunk)  
+
+def Readfile():
+    with open(completeName) as file:
         lines = file.readlines()
     questions_dict = {}
     answers_dict = {}

@@ -15,12 +15,8 @@ def insertQuestions(request):
             form = UploadFileForm(request.POST, request.FILES)
             if form.is_valid():
                 f= request.FILES['file']
-                save_path = 'Main\\media\\'
-                completeName = save_path+f.name
-                with open(completeName, 'wb+') as destination:  
-                    for chunk in f.chunks():  
-                        destination.write(chunk)  
-                questions=Readfile(completeName)
+                Savefile(f)
+                questions=Readfile()
                 QuestionsModel.objects.all().delete()
                 for ques in questions:
                     # Insert in the database
