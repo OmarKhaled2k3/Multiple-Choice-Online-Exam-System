@@ -7,8 +7,8 @@ def Savefile(f):
         for chunk in f.chunks():  
             destination.write(chunk)  
 
-def Readfile():
-    with open(completeName) as file:
+def Readfile(filename):
+    with open(save_path+filename) as file:
         lines = file.readlines()
     questions_dict = {}
     answers_dict = {}

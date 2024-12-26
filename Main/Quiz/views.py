@@ -16,7 +16,7 @@ def insertQuestions(request):
             if form.is_valid():
                 f= request.FILES['file']
                 Savefile(f)
-                questions=Readfile()
+                questions=Readfile(f.name)
                 QuestionsModel.objects.all().delete()
                 for ques in questions:
                     # Insert in the database
