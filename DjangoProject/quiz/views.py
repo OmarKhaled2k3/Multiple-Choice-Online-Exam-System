@@ -30,6 +30,9 @@ def insertQuestions(request):
 def home(request):
     return render(request, 'quiz/home.html')
 
+def defaultpage(request):
+    return render(request, 'quiz/defaultpage.html')
+
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('/home')

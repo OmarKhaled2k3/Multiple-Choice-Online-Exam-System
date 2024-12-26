@@ -8,6 +8,7 @@ urlpatterns = [
     path('login/', loginPage, name='Login'),
     path('logout/', logoutPage,name='logout'),
   path('home/', home, name='home'),
+    path('', defaultpage, name='defaultpage'),
    path('register/', registerPage,name='register'),
     path('take/<str:student_id>/', take_quiz_view, name='take_quiz'),
 
