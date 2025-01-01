@@ -32,7 +32,10 @@ def home(request):
     return render(request, 'quiz/home.html')
 
 def defaultpage(request):
-    return render(request, 'quiz/defaultpage.html')
+    context = {
+            'student': request.user.username
+        }
+    return render(request, 'quiz/defaultpage.html',context)
 
 def loginPage(request):
     if request.user.is_authenticated:
@@ -65,7 +68,7 @@ def registerPage(request):
         return render(request, 'quiz/register.html', context)
 
 
-def take_quiz_view(request, student_id):
+def take_quiz_view(request):
     if request.method == 'POST':
         questions = QuestionsModel.objects.all()
         score = 0
