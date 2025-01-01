@@ -1,0 +1,105 @@
+Q1: Which protocol is used to transfer files over the Internet?
+A. HTTP
+B. FTP
+C. SMTP
+D. SNMP
+Correct Answer: B
+
+Q2: What is the primary function of a router?
+A. To filter network traffic based on rules
+B. To connect and manage devices in a local network
+C. To determine the best path for data packets between networks
+D. To amplify weak signals in a network
+Correct Answer: C
+
+Q3: What does DNS stand for?
+A. Dynamic Network System
+B. Domain Name System
+C. Digital Name Structure
+D. Data Network Service
+Correct Answer: B
+
+Q4: Which layer of the OSI model is responsible for end-to-end communication and error handling?
+A. Application Layer
+B. Transport Layer
+C. Data Link Layer
+D. Network Layer
+Correct Answer: B
+
+Q5: Which device operates at the Data Link layer of the OSI model?
+A. Switch
+B. Router
+C. Hub
+D. Modem
+Correct Answer: A
+
+Q6: In a TCP/IP model, which layer handles logical addressing?
+A. Application Layer
+B. Transport Layer
+C. Network Layer
+D. Data Link Layer
+Correct Answer: C
+
+Q7: What is the maximum size of an IPv4 address in bits?
+A. 32 bits
+B. 64 bits
+C. 128 bits
+D. 256 bits
+Correct Answer: A
+
+Q8: Which protocol is used to send email?
+A. HTTP
+B. FTP
+C. SMTP
+D. POP3
+Correct Answer: C
+
+Q9: What is the default subnet mask for a Class C IP address?
+A. 255.0.0.0
+B. 255.255.0.0
+C. 255.255.255.0
+D. 255.255.255.255
+Correct Answer: C
+
+Q10: Which of the following is NOT a characteristic of UDP?
+A. Connectionless protocol
+B. Reliable data transfer
+C. Fast transmission speed
+D. No error recovery
+Correct Answer: B
+
+Q11: Which topology connects all devices to a central hub?
+A. Mesh
+B. Star
+C. Ring
+D. Bus
+Correct Answer: B
+
+Q12: What is the primary purpose of ARP (Address Resolution Protocol)?
+A. To map IP addresses to MAC addresses
+B. To resolve domain names to IP addresses
+C. To establish secure connections
+D. To transfer files over a network
+Correct Answer: A
+
+Q13: Which protocol is used to securely browse websites?
+A. FTP
+B. HTTP
+C. HTTPS
+D. TELNET
+Correct Answer: C
+
+Q14: Which layer of the OSI model provides encryption and decryption of data?
+A. Application Layer
+B. Presentation Layer
+C. Session Layer
+D. Transport Layer
+Correct Answer: B
+
+Q15: In a wireless network, what does SSID stand for?
+A. Service Set Identifier
+B. Secure Server ID
+C. Standard Signal Identifier
+D. Shared Signal ID
+Correct Answer: A
+

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from .FiletoList import Readfile, Savefile
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 from .forms import *
 from .models import *
 import json
@@ -63,7 +64,6 @@ def registerPage(request):
         }
         return render(request, 'quiz/register.html', context)
 
-from django.shortcuts import render, redirect
 
 def take_quiz_view(request, student_id):
     if request.method == 'POST':

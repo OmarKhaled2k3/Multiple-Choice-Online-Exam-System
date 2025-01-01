@@ -1,4 +1,4 @@
-save_path = 'Main\\media\\'
+save_path = 'DjangoProject\\media\\'
 completeName = save_path
 def Savefile(f):
     global completeName
