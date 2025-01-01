@@ -2,7 +2,8 @@
 {% block title %}Quiz Result{% endblock %}
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="jumbotron text-center">
+    <div class="jumbotron text-center shadow-sm" 
+         style="padding: 2rem; border-radius: 15px; background-color: rgba(255, 255, 255, 0.8);">
         <div class="result-container">
             <h1>Result for {{ username }}</h1>
             <p class="h3">Your score: {{ score }} / 5</p>
