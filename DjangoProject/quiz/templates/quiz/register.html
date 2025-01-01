@@ -1,11 +1,17 @@
 {% extends 'quiz/base.html' %}
 {% block content %}
-<div class="container jumbotron">
-    <form method="POST" action="" >
-        {% csrf_token %}
-        {{form.as_p}}
-       
-        <input class="btn btn-success" type="submit" value="Register Account">
-    </form>
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(135deg, #e3f2fd, #90caf9);">
+    <div class="card shadow p-4" style="width: 100%; max-width: 500px; border-radius: 15px;">
+        <h3 class="text-center text-primary mb-4" style="font-weight: bold;">Register an Account</h3>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <div class="d-grid">
+                <input class="btn btn-success" type="submit" value="Register Account" style="padding: 10px 0; font-size: 1rem; border-radius: 8px;">
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
