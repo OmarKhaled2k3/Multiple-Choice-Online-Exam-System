@@ -1,22 +1,40 @@
 {% extends 'quiz/base.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(135deg, #e3f2fd, #90caf9);">
+<!-- Full-width blue bar -->
+<div class="bg-primary text-white py-2" style="width: 100%; position: fixed; top: 0; z-index: 1000;">
+    <div class="container d-flex justify-content-between align-items-center">
+        <!-- Navigation Links -->
+        <a href="/" class="text-white text-decoration-none fw-bold">Home</a>
+        <a href="/logout" class="text-white text-decoration-none fw-bold">Logout</a>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh; padding-top: 60px; background: linear-gradient(135deg, #e3f2fd, #bbdefb);">
     <div class="card shadow p-4" style="width: 100%; max-width: 400px; border-radius: 15px;">
-        <h3 class="text-center text-primary mb-4" style="font-weight: bold;">Login</h3>
+        <!-- Title -->
+        <h3 class="text-center text-primary mb-4" style="font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);">
+            Login
+        </h3>
+
+        <!-- Form -->
         <form method="POST" action="">
             {% csrf_token %}
             <div class="mb-3">
-                <input type="text" name="username" placeholder="Username..." class="form-control" style="border-radius: 8px; padding: 10px;">
+                <input type="text" name="username" placeholder="Username" class="form-control" style="border-radius: 8px; padding: 10px; font-size: 1rem;">
             </div>
             <div class="mb-3">
-                <input type="password" name="password" placeholder="Password..." class="form-control" style="border-radius: 8px; padding: 10px;">
+                <input type="password" name="password" placeholder="Password" class="form-control" style="border-radius: 8px; padding: 10px; font-size: 1rem;">
             </div>
             <div class="d-grid">
-                <input class="btn btn-success" type="submit" value="Login" style="padding: 10px 0; font-size: 1rem; border-radius: 8px;">
+                <input class="btn btn-success" type="submit" value="Login" style="padding: 12px 0; font-size: 1rem; border-radius: 8px;">
             </div>
             <p class="text-center mt-3">
-                Don't have an account? <a href="{% url 'register' %}" class="text-primary" style="font-weight: bold;">Register</a>
+                Don't have an account? 
+                <a href="{% url 'register' %}" class="text-primary fw-bold">
+                    Register
+                </a>
             </p>
         </form>
     </div>
