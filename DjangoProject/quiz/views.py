@@ -35,9 +35,21 @@ def insertQuestions(request):
     else:
         return redirect('/home')
 def home(request):
-    if 'quiz_questions' in request.session and 'quiz_started'  in request.session:
+    if 'quiz_questions' in request.session and 'quiz_started'  in request.session :
         del request.session['quiz_started']
         del request.session['quiz_questions']
+    elif 'quiz_started'  in request.session:
+        start_time_naive=datetime.strptime(request.session['quiz_started'],'%d/%m/%Y, %H:%M:%S')
+        #start_time = now() - timedelta(seconds=int((now() - request.session['quiz_started'])))
+        start_time = make_aware(start_time_naive)  # Make it timezone-aware
+
+        elapsed_time = (now() - start_time).total_seconds()
+        remaining_time = int(max(0, 120 - elapsed_time) ) # 120 seconds timer
+        if remaining_time <= 0:
+            del request.session['quiz_started']
+            del request.session['quiz_questions']
+            return redirect('start_quiz')  
+    
     return render(request, 'quiz/home.html')
 
 def defaultpage(request):
@@ -97,6 +109,11 @@ def start_quiz(request):
     return redirect('take_quiz')
 def take_quiz_view(request):
     if request.method == 'POST':
+        if 'quiz_questions' in request.session and 'quiz_started'  in request.session :
+            del request.session['quiz_started']
+            del request.session['quiz_questions']
+            request.session['submitted'] = "True"  # Save start time
+
         questions = QuestionsModel.objects.all()
         score = 0
         correct = 0
@@ -140,6 +157,9 @@ def take_quiz_view(request):
         if not (request.user.is_authenticated):
             return redirect('/login')
         else:
+            if 'submitted' in request.session:
+                del request.session['submitted']
+                return redirect('/home')
             if 'quiz_questions' not in request.session or 'quiz_started' not in request.session:
                 return redirect('start_quiz')
             quiz_questions = request.session['quiz_questions']
