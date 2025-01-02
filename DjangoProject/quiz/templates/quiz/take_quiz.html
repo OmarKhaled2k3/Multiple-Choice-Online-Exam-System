@@ -11,7 +11,7 @@
 </div>
 
 <h1 class="text-center text-primary mb-4" style="font-weight: bold;">Quiz for {{ username }}</h1>
-<div align="right" id="displaytimer"><b>Timer: {{ remaining_time }} seconds</b></div>
+<div align="right" id="displaytimer"><b>Timer: {{ remaining_minutes }}:{{ remaining_seconds|stringformat:"02" }}</b></div>
 <div class="container mt-4">
     <form method="post" id="form__submit">
         {% csrf_token %}
@@ -44,12 +44,18 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const timerElement = document.getElementById('displaytimer');
-        let timeLeft = {{ remaining_time }};  // Pass Django variable to JavaScript
+        let timeLeft = {{ remaining_time }}; // Time in seconds
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
 
         function updateTimer() {
             if (timeLeft > 0) {
                 timeLeft--;
-                timerElement.innerHTML = `<b>Timer: ${timeLeft} seconds</b>`;
+                timerElement.innerHTML = `<b>Timer: ${formatTime(timeLeft)}</b>`;
             } else {
                 timerElement.innerHTML = `<b>Time's up!</b>`;
                 document.getElementById("form__submit").submit();

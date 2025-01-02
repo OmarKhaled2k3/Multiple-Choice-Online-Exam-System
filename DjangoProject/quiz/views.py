@@ -149,6 +149,8 @@ def take_quiz_view(request):
 
             elapsed_time = (now() - start_time).total_seconds()
             remaining_time = int(max(0, 120 - elapsed_time) ) # 120 seconds timer
+            remaining_minutes = remaining_time // 60
+            remaining_seconds = remaining_time % 60
 
             #if remaining_time <= 0:
                 #return redirect('submit_quiz')  # Handle automatic submission
@@ -156,6 +158,8 @@ def take_quiz_view(request):
             context = {
                 'questions': quiz_questions,
                 'remaining_time': remaining_time,
+                'remaining_minutes': remaining_minutes,
+                'remaining_seconds': remaining_seconds,
                 'username': request.user.username
             }
         return render(request, 'quiz/take_quiz.html', context)
