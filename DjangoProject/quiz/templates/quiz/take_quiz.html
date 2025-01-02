@@ -9,8 +9,10 @@
         <a href="/logout" class="text-white text-decoration-none fw-bold">Logout</a>
     </div>
 </div>
-    <h1 class="text-center text-primary mb-4" style="font-weight: bold;">Quiz for {{ username }}</h1>
-    <div align="right" id="displaytimer"><b>Timer: {{remaining_time}} seconds</b></div>
+
+<h1 class="text-center text-primary mb-4" style="font-weight: bold;">Quiz for {{ username }}</h1>
+<div align="right" id="displaytimer"><b>Timer: {{ remaining_time }} seconds</b></div>
+<div class="container mt-4">
     <form method="post" id="form__submit">
         {% csrf_token %}
         {% for q in questions %}
@@ -42,7 +44,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const timerElement = document.getElementById('displaytimer');
-        let timeLeft = {remaining_time,int} ;
+        let timeLeft = {{ remaining_time }};  // Pass Django variable to JavaScript
+
         function updateTimer() {
             if (timeLeft > 0) {
                 timeLeft--;
@@ -53,6 +56,7 @@
             }
         }
 
+        // Update the timer every second
         setInterval(updateTimer, 1000);
     });
 </script>
