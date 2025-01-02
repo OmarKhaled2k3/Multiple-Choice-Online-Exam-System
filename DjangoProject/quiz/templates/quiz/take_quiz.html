@@ -2,16 +2,8 @@
 {% block title %}Take Quiz{% endblock %}
 {% block content %}
 
-<div class="bg-primary text-white py-2" style="width: 100%; position: fixed; top: 0; z-index: 1000;">
-    <div class="container d-flex justify-content-between align-items-center">
-        <!-- Navigation Links -->
-        <a href="/" class="text-white text-decoration-none fw-bold">Home</a>
-        <a href="/logout" class="text-white text-decoration-none fw-bold">Logout</a>
-    </div>
-</div>
-
 <h1 class="text-center text-primary mb-4" style="font-weight: bold;">Quiz for {{ username }}</h1>
-<div align="right" id="displaytimer"><b>Timer: {{ remaining_minutes }}:{{ remaining_seconds|stringformat:"02" }}</b></div>
+<div align="right" id="displaytimer"><b> </b></div>
 <div class="container mt-4">
     <form method="post" id="form__submit">
         {% csrf_token %}
