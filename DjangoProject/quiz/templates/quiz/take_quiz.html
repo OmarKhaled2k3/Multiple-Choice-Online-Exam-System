@@ -10,7 +10,7 @@
     </div>
 </div>
     <h1 class="text-center text-primary mb-4" style="font-weight: bold;">Quiz for {{ username }}</h1>
-    <div align="right" id="displaytimer"><b>Timer: 120 seconds</b></div>
+    <div align="right" id="displaytimer"><b>Timer: {{remaining_time}} seconds</b></div>
     <form method="post" id="form__submit">
         {% csrf_token %}
         {% for q in questions %}
@@ -42,8 +42,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const timerElement = document.getElementById('displaytimer');
-        let timeLeft = 120;
-
+        let timeLeft = {remaining_time,int} ;
         function updateTimer() {
             if (timeLeft > 0) {
                 timeLeft--;

@@ -11,5 +11,6 @@ urlpatterns = [
     path('', defaultpage, name='defaultpage'),
    path('register/', registerPage,name='register'),
     path('take/', take_quiz_view, name='take_quiz'),
+    path('start_quiz/', start_quiz, name='start_quiz'),
 
 ]

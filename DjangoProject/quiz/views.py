@@ -4,12 +4,18 @@ from .FiletoList import Readfile, Savefile
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from django.utils.timezone import now
+from datetime import timedelta
+from datetime import datetime
+from django.utils import timezone
+from django.utils.timezone import now, make_aware
+from datetime import datetime, timedelta
+
 from .forms import *
 from .models import *
+
 import json
 import time
-
-
 def insertQuestions(request):
     if request.user.is_staff:
         if request.method == "POST" :
@@ -29,6 +35,9 @@ def insertQuestions(request):
     else:
         return redirect('/home')
 def home(request):
+    if 'quiz_questions' in request.session and 'quiz_started'  in request.session:
+        del request.session['quiz_started']
+        del request.session['quiz_questions']
     return render(request, 'quiz/home.html')
 
 def defaultpage(request):
@@ -67,7 +76,25 @@ def registerPage(request):
         }
         return render(request, 'quiz/register.html', context)
 
+def start_quiz(request):
+    if 'quiz_started' not in request.session:
+        questions = list(QuestionsModel.objects.all())  # Assume Question is your model
+        selected_questions = random.sample(questions, 5)  # Select 5 random questions
 
+        # Store questions and start time in session
+        request.session['quiz_questions'] = [
+            {
+                'id': q.id,
+                'question': q.question,
+                'op1': q.op1,
+                'op2': q.op2,
+                'op3': q.op3,
+                'op4': q.op4,
+            } for q in selected_questions
+        ]
+        request.session['quiz_started'] = datetime.strftime(now(),'%d/%m/%Y, %H:%M:%S')  # Save start time
+    
+    return redirect('take_quiz')
 def take_quiz_view(request):
     if request.method == 'POST':
         questions = QuestionsModel.objects.all()
@@ -110,12 +137,27 @@ def take_quiz_view(request):
         return render(request, 'quiz/result.html', context)
 
     else:  # For GET request, render the quiz
-        questions = list(QuestionsModel.objects.all())
-        random_questions=random.sample(questions,5)
-        context = {
-            'questions': random_questions,
-            'username': request.user.username
-        }
+        if not (request.user.is_authenticated):
+            return redirect('/login')
+        else:
+            if 'quiz_questions' not in request.session or 'quiz_started' not in request.session:
+                return redirect('start_quiz')
+            quiz_questions = request.session['quiz_questions']
+            start_time_naive=datetime.strptime(request.session['quiz_started'],'%d/%m/%Y, %H:%M:%S')
+            #start_time = now() - timedelta(seconds=int((now() - request.session['quiz_started'])))
+            start_time = make_aware(start_time_naive)  # Make it timezone-aware
+
+            elapsed_time = (now() - start_time).total_seconds()
+            remaining_time = int(max(0, 120 - elapsed_time) ) # 120 seconds timer
+
+            #if remaining_time <= 0:
+                #return redirect('submit_quiz')  # Handle automatic submission
+
+            context = {
+                'questions': quiz_questions,
+                'remaining_time': remaining_time,
+                'username': request.user.username
+            }
         return render(request, 'quiz/take_quiz.html', context)
 
 
