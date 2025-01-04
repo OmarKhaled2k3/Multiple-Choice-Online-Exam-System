@@ -35,7 +35,9 @@ def insertQuestions(request):
     else:
         return redirect('/home')
 def home(request):
-    if 'quiz_questions' in request.session and 'quiz_started'  in request.session :
+    if not (request.user.is_authenticated):
+            return redirect('/login')
+    if 'quiz_questions' in request.session and 'quiz_started'  in request.session and 'submitted' in request.session  :
         del request.session['quiz_started']
         del request.session['quiz_questions']
     elif 'quiz_started'  in request.session:
@@ -53,6 +55,8 @@ def home(request):
     return render(request, 'quiz/home.html')
 
 def defaultpage(request):
+    if request.user.is_authenticated:
+        return redirect('/home')
     context = {
             'student': request.user.username
         }
@@ -159,7 +163,7 @@ def take_quiz_view(request):
         else:
             if 'submitted' in request.session:
                 del request.session['submitted']
-                return redirect('/home')
+                #return redirect('/home')
             if 'quiz_questions' not in request.session or 'quiz_started' not in request.session:
                 return redirect('start_quiz')
             quiz_questions = request.session['quiz_questions']

@@ -7,7 +7,12 @@
 <div class="d-flex flex-column align-items-center justify-content-center min-vh-100" style="background: linear-gradient(135deg, #e3f2fd, #90caf9); min-height: 100vh; width: 100vw; margin: 0; padding: 0;">
     <!-- Title -->
     <h1 class="text-center text-primary mb-4" style="font-size: 3rem; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);">
-        Welcome to Student Quiz
+        
+        {% if user.is_superuser %}
+        Welcome Admin.
+        {% else %}
+        Welcome to Student Quiz.
+        {% endif %}
     </h1>
 
     <!-- Decorative Border Below the Title -->
@@ -17,5 +22,13 @@
     <a href="/take" class="btn btn-primary mt-4 px-5 py-3" style="font-size: 1.2rem; font-weight: bold; border-radius: 8px;">
         Take Quiz
     </a>
+    {% if user.is_superuser %}
+    <a href="/admin/quiz/questionsmodel/" class="btn btn-primary mt-4 px-5 py-3" style="font-size: 1.2rem; font-weight: bold; border-radius: 8px;">
+        Edit Questions
+    </a>
+    <a href="/insertQuestions" class="btn btn-primary mt-4 px-5 py-3" style="font-size: 1.2rem; font-weight: bold; border-radius: 8px;">
+        Insert New Questions
+    </a>
+    {% endif %}
 </div>
 {% endblock %}
