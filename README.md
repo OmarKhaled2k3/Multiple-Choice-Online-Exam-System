@@ -95,12 +95,12 @@ DjangoProject/
 ```
 ---
 ## Snapshots
-<img src="https://github.com/user-attachments/assets/e3c907f4-bc93-4d81-ac1e-5fc0210d19d4" width="425">
-<img src="https://github.com/user-attachments/assets/2a07fb02-e565-4d4e-bd0b-9a6ff539cd7b" width="425">
-<img src="https://github.com/user-attachments/assets/068424d5-7798-4a94-b695-4489232d4de9" width="425">
-<img src="https://github.com/user-attachments/assets/19fc41f1-31fc-4640-aa44-b6b4ea04e537" width="425">
-<img src="https://github.com/user-attachments/assets/010fec11-4177-465b-b957-fae5f20d96d2" width="425">
-<img src="https://github.com/user-attachments/assets/226e44ae-bed2-447d-a16a-5c6b7f195b87" width="425">
+<img src="https://github.com/user-attachments/assets/e3c907f4-bc93-4d81-ac1e-5fc0210d19d4" width="400">
+<img src="https://github.com/user-attachments/assets/2a07fb02-e565-4d4e-bd0b-9a6ff539cd7b" width="400">
+<img src="https://github.com/user-attachments/assets/068424d5-7798-4a94-b695-4489232d4de9" width="400">
+<img src="https://github.com/user-attachments/assets/19fc41f1-31fc-4640-aa44-b6b4ea04e537" width="400">
+<img src="https://github.com/user-attachments/assets/010fec11-4177-465b-b957-fae5f20d96d2" width="400">
+<img src="https://github.com/user-attachments/assets/226e44ae-bed2-447d-a16a-5c6b7f195b87" width="400">
 
 ---
 
