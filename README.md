@@ -1,7 +1,7 @@
-# Online Quiz Application
+# Multiple Choice Online Exam System
 
 ## Overview
-The Online Quiz Application is a Django-based web application that allows an examiner to create and manage multiple-choice quizzes for students. The application features a web-based interface for students to attempt quizzes with a real-time timer, dynamic question loading, and instant feedback upon submission.
+The Multiple Choice Online Exam System is a Django-based web application that allows an examiner to create and manage multiple-choice quizzes for students. The application features a web-based interface for students to attempt quizzes with a real-time timer, dynamic question loading, and instant feedback upon submission.
 
 ---
 
